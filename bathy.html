@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Value Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+        }
+        .container {
+            border: 2px solid #4e73df;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4e73df;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        .btn {
+            margin-right: 10px;
+        }
+        .navbar-custom {
+            background-color: #07529e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            margin: 0 15px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            color: #ff6f61;
+        }
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <div class="row row-spacing navbar-custom">
+            <div class="col-md-12 d-flex justify-content-center nav-links">
+                <a href="tatical.html">Tatical</a>
+                <a href="bathy.html">Bathy</a>
+                <a href="startup.html">Startup</a>
+                <a href="bathy.html">SRP</a>
+                <a href="SRP.html">Broadband</a>
+                <a href="broadband.html">Wideband Analysis</a>
+                <a href="narrowanalysis.html">Narrow Analysis</a>
+                <a href="combinedata.html">Combine Data</a>
+            </div>
+        </div>
+
+        <h1>Random Value Generator</h1>
+
+        <div class="image-container">
+            <h2>Graph Image</h2>
+            <img src="images/generate random value.png" alt="Graph Image">
+        </div>
+
+        <div class="row">
+            <!-- First Table: Temperature -->
+            <div class="col-md-6 table-container">
+                <h2>Temperature Table</h2>
+                <table class="table table-bordered" id="temperatureTable">
+                    <thead>
+                        <tr>
+                            <th>Depth (m)</th>
+                            <th>Velocity (m/s)</th>
+                            <th>Temperature (°C)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            <!-- Second Table: Sound Depth -->
+            <div class="col-md-6 table-container">
+                <h2>Sound Depth Table</h2>
+                <table class="table table-bordered" id="soundDepthTable">
+                    <thead>
+                        <tr>
+                            <th>Depth (m)</th>
+                            <th>Temperature (°C)</th>
+                            <th>Salinity (ppt)</th>
+                            <th>Pressure (bar)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-success" id="startButton">Start</button>
+            <button class="btn btn-danger" id="stopButton">Stop</button>
+        </div>
+    </div>
+
+    <script>
+        let interval;
+        let count = 0;
+
+        document.getElementById("startButton").addEventListener("click", function() {
+            if (count < 10) {
+                interval = setInterval(generateRandomValues, 500); // Faster generation
+            }
+        });
+
+        document.getElementById("stopButton").addEventListener("click", function() {
+            clearInterval(interval);
+        });
+
+        function generateRandomValues() {
+            if (count < 10) {
+                const depth = Math.floor(Math.random() * 101); // Random depth between 0-100
+                const velocity = Math.random() * (1600 - 1400) + 1400; // Random velocity between 1400-1600 m/s
+                const temperature = Math.random() * (30 - 15) + 15; // Random temperature between 15-30°C
+                const salinity = Math.random() * (40 - 30) + 30; // Random salinity between 30-40 ppt
+                const pressure = Math.random() * (1.5 - 1) + 1; // Random pressure between 1-1.5 bar
+
+                // Append to Temperature Table
+                const tempTableBody = document.getElementById("temperatureTable").getElementsByTagName('tbody')[0];
+                const tempRow = tempTableBody.insertRow();
+                tempRow.innerHTML = `<td>${depth}</td><td>${velocity.toFixed(2)}</td><td>${temperature.toFixed(2)}</td>`;
+
+                // Append to Sound Depth Table
+                const soundTableBody = document.getElementById("soundDepthTable").getElementsByTagName('tbody')[0];
+                const soundRow = soundTableBody.insertRow();
+                soundRow.innerHTML = `<td>${depth}</td><td>${temperature.toFixed(2)}</td><td>${salinity.toFixed(2)}</td><td>${pressure.toFixed(2)}</td>`;
+
+                count++;
+            } else {
+                clearInterval(interval);
+                alert("Limit reached: 10 entries generated.");
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
